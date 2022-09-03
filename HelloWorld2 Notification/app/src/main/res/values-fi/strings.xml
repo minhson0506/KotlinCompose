@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hei</string>
+    <string name="hello">Hei</string>
+    <string name="two">2</string>
+    <string name="goodbye">Hyvästi Pimeys</string>
+    <string name="helloWorld">Hei maailma</string>
+    <string name="input">Syötä nimesi</string>
+    <string name="click">Klikkaus</string>
+    <string name="undo">Takaisin</string>
+    <string name="snackbarMessage">Nimi on päivitetty</string>
+</resources>
