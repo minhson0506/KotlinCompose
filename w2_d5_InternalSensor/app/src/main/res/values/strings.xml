@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">w2_d5_InternalSensor</string>
+    <string name="temperature">Temperature</string>
+</resources>

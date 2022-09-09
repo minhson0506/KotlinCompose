@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Point
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
@@ -81,6 +80,7 @@ fun showMap(geoPoint: GeoPoint, address: String) {
     }
 
     val marker = Marker(map)
+
     AndroidView(factory = { map }) {
         address ?: return@AndroidView
         it.controller.setCenter(geoPoint)
@@ -88,8 +88,6 @@ fun showMap(geoPoint: GeoPoint, address: String) {
         marker.position = geoPoint
         marker.showInfoWindow()
         marker.title = address + "; lat ${geoPoint.latitude} & long ${geoPoint.longitude}"
-        
-        map.overlays.filter {  }
         map.overlays.clear()
         map.overlays.add(marker)
         map.invalidate()
@@ -122,7 +120,9 @@ fun getLocation(context: Context, activity: Activity) {
     var speed by remember {
         mutableStateOf(0.0)
     }
-    var maxSpeed = 0.0
+    var maxSpeed by remember {
+        mutableStateOf(0.0)
+    }
     var preLocation: Location? = null
     var long by remember {
         mutableStateOf(0.0)
