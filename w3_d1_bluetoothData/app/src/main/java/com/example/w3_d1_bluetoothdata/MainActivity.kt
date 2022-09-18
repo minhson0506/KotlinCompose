@@ -2,7 +2,6 @@ package com.example.w3_d1_bluetoothdata
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanResult
 import android.content.Context
@@ -12,15 +11,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -30,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.w3_d1_bluetoothdata.ui.theme.W3_d1_bluetoothDataTheme
 
@@ -91,6 +84,8 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
     val fScanning: Boolean by model.fScanning.observeAsState(false)
     var enabled by rememberSaveable { mutableStateOf(true) }
     var isConnect by remember { mutableStateOf(false) }
+    val gattClientCallback = GattClientCallback(model = model)
+    val heartRate by model.mBPM.observeAsState()
     Column(modifier = Modifier
         .padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = {
@@ -99,9 +94,16 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
             Text("Scan devices")
         }
         Log.i(TAG, "device bluetooth: $value")
-        Text(text = if (isConnect) "Connected" else "Disconnect",
-            modifier = Modifier
-                .height(20.dp))
+        Row() {
+            Text(text = if (isConnect) "Connected:" else "Disconnect",
+                modifier = Modifier
+                    .height(20.dp))
+            Text(text = if (heartRate != 0) "$heartRate bpm" else "",
+                modifier = Modifier
+                    .height(20.dp))
+            Log.d(TAG, "ShowDevices: rate $heartRate")
+        }
+
         Column(modifier = Modifier
             .padding(vertical = 16.dp)
             .verticalScroll(rememberScrollState()),
@@ -118,23 +120,14 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
                         .clickable(enabled = enabled) {
                             Log.d(TAG, "ShowDevices: press item")
                             enabled = false
-//                        onClick(item.device, context = context)
-                            val gattClientCallback = GattClientCallback()
+
                             val bluetoothGatt =
                                 item.device.connectGatt(context, false, gattClientCallback)
                             isConnect = bluetoothGatt.connect()
-//                            bluetoothGatt.discoverServices()
                         }
                 )
             }
         }
     }
 
-}
-
-fun onClick(device: BluetoothDevice, context: Context) {
-    val gattClientCallback = GattClientCallback()
-    val bluetoothGatt = device.connectGatt(context, false, gattClientCallback)
-
-    bluetoothGatt.discoverServices()
 }

@@ -18,6 +18,7 @@ class BLEViewModel : ViewModel() {
     val scanResults = MutableLiveData<List<ScanResult>>(null)
     val fScanning = MutableLiveData<Boolean>(false)
     private val results = java.util.HashMap<String, ScanResult>()
+    val mBPM = MutableLiveData(0)
 
     private val TAG = "w3_d1_bluetoothdata"
 
@@ -28,13 +29,6 @@ class BLEViewModel : ViewModel() {
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).setReportDelay(0)
                 .build()
 
-//            if (ActivityCompat.checkSelfPermission(
-//                    context,
-//                    Manifest.permission.BLUETOOTH_SCAN
-//                ) != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                MainActivity.requestPermission
-//            }
             scanner.startScan(null, settings, leScanCallback)
             delay(SCAN_PERIOD)
             scanner.stopScan(leScanCallback)
