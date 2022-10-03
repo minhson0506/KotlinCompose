@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vaihda tekstisovellusta</string>
+    <string name="hello">Hei</string>
+    <string name="two">2</string>
+    <string name="goodbye">Hyvästi Pimeys</string>
+    <string name="helloWorld">Hei maailma</string>
+    <string name="input">Syötä nimesi</string>
+    <string name="click">VAIHDA TEKSTIÄ</string>
+</resources>

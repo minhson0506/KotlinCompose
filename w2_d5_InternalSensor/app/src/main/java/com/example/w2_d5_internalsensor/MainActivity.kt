@@ -43,7 +43,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             W2_d5_InternalSensorTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    ShowSensorData(sensorViewModel = sensorViewModel)
+                    if (sTemperature != null)
+                        ShowSensorData(sensorViewModel = sensorViewModel)
+                    else Text(text = "Your phone does not have temperature sensor")
                 }
             }
         }

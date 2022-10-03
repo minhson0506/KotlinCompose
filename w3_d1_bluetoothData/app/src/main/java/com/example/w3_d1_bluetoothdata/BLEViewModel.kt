@@ -14,9 +14,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BLEViewModel : ViewModel() {
-    val SCAN_PERIOD: Long = 5000
+    private val SCAN_PERIOD: Long = 5000
     val scanResults = MutableLiveData<List<ScanResult>>(null)
-    val fScanning = MutableLiveData<Boolean>(false)
+    val fScanning = MutableLiveData(false)
     private val results = java.util.HashMap<String, ScanResult>()
     val mBPM = MutableLiveData(0)
 

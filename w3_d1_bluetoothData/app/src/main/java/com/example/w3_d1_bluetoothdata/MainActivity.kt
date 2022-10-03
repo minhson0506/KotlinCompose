@@ -37,9 +37,9 @@ class MainActivity : ComponentActivity() {
             Log.d(TAG, "No Bluetooth LE capability")
             return false
         } else
-            if ((checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(
-                    Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            if ((checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) ||
+                (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) ||
+                (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
             ) {
                 Log.d(TAG, "No fine location access")
                 requestPermissions(
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
         bluetoothAdapter = bluetoothManager.adapter
 
         setContent {
-            W3_d1_bluetoothDataTheme() {
+            W3_d1_bluetoothDataTheme {
                 // A surface container using the 'background' color from the theme
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -81,7 +81,6 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
     val scanner = bluetoothAdapter.bluetoothLeScanner
     val context = LocalContext.current
     val value: List<ScanResult>? by model.scanResults.observeAsState(null)
-    val fScanning: Boolean by model.fScanning.observeAsState(false)
     var enabled by rememberSaveable { mutableStateOf(true) }
     var isConnect by remember { mutableStateOf(false) }
     val gattClientCallback = GattClientCallback(model = model)
@@ -94,7 +93,7 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
             Text("Scan devices")
         }
         Log.i(TAG, "device bluetooth: $value")
-        Row() {
+        Row {
             Text(text = if (isConnect) "Connected:" else "Disconnect",
                 modifier = Modifier
                     .height(20.dp))
@@ -129,5 +128,4 @@ fun ShowDevices(bluetoothAdapter: BluetoothAdapter, model: BLEViewModel) {
             }
         }
     }
-
 }
